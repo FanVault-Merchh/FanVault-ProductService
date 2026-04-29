@@ -1,0 +1,51 @@
+# ══════════════════════════════════════════════════════════════════════════
+#  product-service Caller Workflow
+#  Repo:  FanVault-Merch/product-service
+#  Path:  .github/workflows/ci.yml
+#
+#  Calls the shared workflow in FanVault-shared-workflows, passing:
+#    - service-specific inputs (name, image, helm path)
+#    - org-level secrets via `secrets: inherit`
+# ══════════════════════════════════════════════════════════════════════════
+name: Product Service CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+# Permissions required by the shared workflow
+permissions:
+  contents: write     # Create git tags on main
+  packages: write     # Push to GHCR
+  security-events: write
+
+jobs:
+  ci:
+    name: Product Service Pipeline
+    uses: FanVault-Merch/FanVault-shared-workflows/.github/workflows/service-ci.yml@main
+    with:
+      # ── Service identification ───────────────────────────────────────────
+      service-name: product-service
+
+      # ── Docker Hub image path (must match Dockerfile / docker-compose image name)
+      image-name: savitxr/fanvault-product
+
+      # ── Helm chart repository containing the service values.yaml ─────────
+      helm-repo: FanVault-Merch/helm-charts
+
+      # ── Path to the service values.yaml inside the helm repo ─────────────
+      # Matches: fanvault-micro-apps/charts/product-service/values.yaml
+      helm-values-path: fanvault-micro-apps/charts/product-service/values.yaml
+
+      # ── Source directory (root of this repo, which is the service root)
+      working-directory: '.'
+
+    # Inherit ALL org-level and repo-level secrets automatically
+    secrets: inherit
+
