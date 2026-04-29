@@ -1,6 +1,6 @@
 # ══════════════════════════════════════════════════════════════════════════
 #  product-service Caller Workflow
-#  Repo:  FanVault-Merch/product-service
+#  Repo:  FanVault-Merchh/product-service
 #  Path:  .github/workflows/ci.yml
 #
 #  Calls the shared workflow in FanVault-shared-workflows, passing:
@@ -28,7 +28,7 @@ permissions:
 jobs:
   ci:
     name: Product Service Pipeline
-    uses: FanVault-Merch/FanVault-shared-workflows/.github/workflows/service-ci.yml@main
+    uses: FanVault-Merchh/FanVault-shared-workflows/.github/workflows/service-ci.yml@main
     with:
       # ── Service identification ───────────────────────────────────────────
       service-name: product-service
@@ -37,7 +37,7 @@ jobs:
       image-name: savitxr/fanvault-product
 
       # ── Helm chart repository containing the service values.yaml ─────────
-      helm-repo: FanVault-Merch/helm-charts
+      helm-repo: FanVault-Merchh/helm-charts
 
       # ── Path to the service values.yaml inside the helm repo ─────────────
       # Matches: fanvault-micro-apps/charts/product-service/values.yaml
